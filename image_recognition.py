@@ -37,9 +37,24 @@ def getLabelFromImage(img):
 	# Sauvegarde l'image:	
 	cv2.imwrite('img.jpg', img)
 
-	# Upload local file
-	client.file(imageInput).putFile('./img.jpg')
+	# Enregitre l'image et renvoie le label:
+	return getLabelFromFilename('./img.jpg')
 
+
+# Détermine le label d'une image
+# @param filename : chemin de l'image
+# @return label {string}
+def getLabelFromFilename(filename):
+	# Envoie l'image à Algorithmia:
+	client.file(imageInput).putFile(filename)
+
+	# Récupère et renvoie le label de l'image:
+	return getLabel()
+
+
+# Envoie une requète pour récupérer le label d'une image déjà sauvegardée sur Algorithmia
+# @return label {string}
+def getLabel():
 	input = {
 	  "image": imageInput,
 	  "output": "data://.algo/deeplearning/ObjectDetectionCOCO/temp/imgOut.jpg",
@@ -61,4 +76,3 @@ def getLabelFromImage(img):
 		return result[0]['label']
 
 	return 'null'
-
