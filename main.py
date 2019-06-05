@@ -1,33 +1,33 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import cv2, random
-import time
-import pybullet
-import pybullet_data
+# Librairies:
+import pybullet, pybullet_data
 from qibullet import SimulationManager
 from qibullet import PepperVirtual
+import cv2, random, time, numpy as np
 
 # Scripts:
 from image_recognition import getLabelFromImage
 
-
+# Liste des objets composant le décor:
 objects = [
-	{ "name": "objet/table.urdf", "basePosition": [1, 1, 0], "globalScaling": 0.5 },
-	{ "name": "objet/diningTable.urdf", "basePosition": [-2, 1, 0], "globalScaling": 0.5 },
+  { "name": "objet/table.urdf", "basePosition": [1, 1, 0], "globalScaling": 0.5 },
+  { "name": "objet/diningTable.urdf", "basePosition": [-2, 0.8, -0.1], "globalScaling": 0.5 },
+  { "name": "objet/diningTable.urdf", "basePosition": [4, 0.8, -0.1], "globalScaling": 0.5 }
 ]
 
 # Liste des totems:
 totems = [
   { "name": "objet/totem.urdf", "basePosition": [0.5, 1, 0.8], "globalScaling": 0.8 },
-	{ "name": "objet/totem_banane.urdf",  "basePosition": [1, 1, 0.8], "globalScaling": 0.8 },
+  { "name": "objet/totem_banane.urdf",  "basePosition": [1, 1, 0.8], "globalScaling": 0.8 },
   { "name": "objet/totem_bouteille.urdf",  "basePosition": [1.5, 1, 0.8], "globalScaling": 0.8 }
   
 ]
 
 # Liste des positions des totems:
 totems_places = [
-  [0.5, 1, 0.8], [1, 1, 0.8], [1.5, 1, 0.8]
+  [0.5, 0.8, 0.8], [1, 0.8, 0.8], [1.5, 0.8, 0.8]
 ]
 
 
@@ -44,7 +44,7 @@ def main():
   # Charge les totems:
   placeRandomlyObjects(client, totems, totems_places)
   
-  # Déplacement de Pepper:
+  # Déplacement de Pepper pour récupérer un objet:
   deplacement(pepper)
 
   # Active la caméra:
@@ -54,7 +54,6 @@ def main():
     img = pepper.getCameraFrame()
     cv2.imshow("bottom camera", img)
 
-    
     label = getLabelFromImage(img)
     print(label)
     time.sleep(10);
@@ -76,21 +75,46 @@ def placeRandomlyObjects(client, objects, places):
     pybullet.loadURDF(objet["name"], basePosition = places[i], globalScaling = objet["globalScaling"], physicsClientId = client)
     
 
-
-
+# Déplacement de Pepper pour récupérer et placer un objet:
 def deplacement(pepper):
   pepper.goToPosture("Crouch", 0.6)
-  time.sleep(2)
+  time.sleep(0.5)
   pepper.goToPosture("Stand", 0.6)
-  time.sleep(2)
-  #pepper.goToPosture("StandZero", 0.6)
-  #time.sleep(2)
+  time.sleep(0.5)
+  PriseObjet(0, pepper,1)
+  PoseTable(0, pepper, 1)
 
-  # Move to the specified [x, y, theta] coordinates in the robot frame, 
-  # synchronous call
-  pepper.moveTo(0.5, 0.0, 3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
-  #time.sleep(5)
-  #pepper.moveTo(0.4, 0.0, 0.0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
+
+# Prend un objet avec sa main gauche:
+def PriseObjet(pos,pepper,table):
+  pepper.moveTo(0.625 + pos, 0.3 , 3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
+  pepper.setAngles('LShoulderPitch',0.5 ,1)
+  pepper.setAngles('LHand',1.57,1)
+  pepper.moveTo(0.2, 0, 0, frame=PepperVirtual.FRAME_ROBOT, speed = 10)
+  time.sleep(0.5)
+  pepper.setAngles('LHand',0,0.2)
+  
+
+# Repose l'objet sur la table:
+def PoseTable(pos,pepper,table):
+  pepper.moveTo(-1, 0 , 0, frame=PepperVirtual.FRAME_ROBOT, speed = 100)
+  
+  if(table == 1):
+    pepper.moveTo(0, 0 , 3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 100) 
+    pepper.moveTo(pos+2.7,0 , 0, frame=PepperVirtual.FRAME_ROBOT, speed = 100)
+    pepper.moveTo(0, 0 , -3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 100)
+    pepper.moveTo(0.25, 0 , 0, frame=PepperVirtual.FRAME_ROBOT, speed = 100)
+    time.sleep(1)
+    pepper.setAngles('LShoulderPitch',0.7 ,1)
+    pepper.setAngles('LHand',1.57,0.1) 
+  
+  elif (table == 2):
+    pepper.moveTo(0,0, -3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0) 
+    pepper.moveTo(3.2-pos,0, 0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
+    pepper.moveTo(0, 0 , 3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)  
+    pepper.moveTo(0.35, 0 , 0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
+    pepper.setAngles('LShoulderPitch',0.7 ,1)
+    pepper.setAngles('LHand',1.57,1) 
 
 
 if __name__ == "__main__":
