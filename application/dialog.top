@@ -1,0 +1,26 @@
+topic: ~dialog()
+language: enu
+
+concept: (Bottle) [Wine bottle bouteille vin]
+concept: (Pizza) [pizza pissa]
+concept: (Banana) [banana banane]
+concept: (Hello) [hello hey salut bonjour coucou]
+concept: (Restart) [redémarre recommence restart]
+concept: (One) [one un ein]
+concept: (Two) [two deux zwei]
+
+u: ([Hello]) Hello, I'm here for you ! ^goto(start)
+u:([Go e:Choix/Start]) %start $Choix/Page0="What would you like?"  What would you like? WIne, Pizza, or Banane? $Choix/Page1=1
+
+    u1:([~Bottle e:Choix/Button1]) $objet="bottle" $Choix/Page0="You choose Wine. Now, choose your table" Wine, Good choice ! ^goto(table)
+    u1:([~Pizza e:Choix/Button2]) $objet="pizza" $Choix/Page0="You choose Pizza. Now, choose your table" Pizza, I like it ^goto(table)
+    u1:([~Banana e:Choix/Button3]) $objet="banana" $Choix/Page0="You choose Banana. Now, choose your table " Banana, Why not ! ^goto(table)
+    u1: ([~Restart e:Choix/Restart]) ^goto(start)
+
+proposal: %table Choose your table. $Choix/Page2=1
+    u1: ([~One e:Choix/table1]) $Choix/Page0="You are at the table one" You are at the table one, I'll be back in few minutes $table=1 $Choix/Page3=1 ^goto(order)
+    u1: ([~Two e:Choix/table2]) $Choix/Page0="You are at the table two" You are at the table two, I'll be back in few minutes $table=2 $Choix/Page3=1 ^goto(order)
+    u1: ([~Restart e:Choix/Restart]) ^goto(start)
+
+proposal: %order Your would like a $objet for table $table
+    u1: ([~Restart e:Choix/Restart]) ^goto(start)
