@@ -34,6 +34,10 @@ def getLabelsFromImage(filename):
     [label, prob] = lines[i].split(': ')  # !: prob = '99%'
     labels.append({ 'label': label, 'prob': int(prob[:-1])})
 
+  # Si aucun label:
+  if len(labels) == 0:
+    labels.append({ 'label': 'null', 'prob': 0 })
+
   return labels
 
 

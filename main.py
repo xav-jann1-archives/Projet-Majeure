@@ -9,6 +9,7 @@ import cv2, random, time, numpy as np
 
 # Scripts:
 from image_recognition import getLabelFromImage
+from send_image import getLabelsFromImage_darknet
 
 # Liste des objets composant le décor:
 objects = [
@@ -51,7 +52,7 @@ def main():
 
   # Attend la commande:
   # [objet, table] = ...
-  [objet, table] = ['pizza', 1]
+  [objet, table] = ['banana', 1]
   
   # Déplacement de Pepper pour récupérer l'objet demandé:
   delta_pos = moveToObject(pepper, objet)
@@ -204,7 +205,10 @@ def getLabelFromObject(pepper):
 
   # Détermine le label de l'objet contenu dans l'image:
   print("Recherche du label...")
-  label = getLabelFromImage(img)
+  #label = getLabelFromImage(img)   # Algorithmia
+  label = getLabelsFromImage_darknet(img)[0]['label']  # darknet/yolo
+  #print(getLabelsFromImage_darknet(img)[0])
+  #label = 'banana'
 
   # Repositionnement d'origine:
   pepper.setAngles('HipPitch', 0, 1)
