@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, abort, Response
 import cv2, numpy as np
 
 # Reconnaissance d'image:
-#from classifier import getLabelsFromImage
+from classifier import getLabelsFromImage
 
 app = Flask(__name__)
 
@@ -26,8 +26,7 @@ def labelImage():
   cv2.imwrite('img.jpg', image)
 
   # Détermine les labels de l'image:
-  #labels = getLabelsFromImage('img.jpg')
-  labels = [{'a': 2, 'b': 3}, {'c':4}]
+  labels = getLabelsFromImage('img.jpg')
 
   # Retourne les labels trouvés:
   return jsonify(labels)

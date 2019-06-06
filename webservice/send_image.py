@@ -6,7 +6,7 @@ import httplib
 #import http.client as httplib  # Python 3
 
 # Connection au serveur:
-conn = httplib.HTTPConnection('127.0.0.1:5000', timeout=5)
+conn = httplib.HTTPConnection('127.0.0.1:5000', timeout=50)
 
 # Envoie d'une requête pour récupérer les labels d'une image:
 def getLabelsFromImage(img):
