@@ -10,27 +10,44 @@ from classifier import getLabelsFromImage
 
 app = Flask(__name__)
 
-@app.route("/labelImage", methods=['GET'])
-
 # Détermine les labels des éléments contenus dans une image:
+@app.route("/labelImage", methods=['GET'])
 def labelImage():
   # Si l'image n'est pas présente:
   if not request.data:
     abort(Response('Error: image absente'))
 
+  labels = getLabels(request.data, tiny_weights = False)
+
+  # Retourne les labels trouvés:
+  return jsonify(labels)
+
+
+# Détermine les labels des éléments contenus dans une image avec weight-tiny:
+@app.route("/labelImage_tiny", methods=['GET'])
+def labelImage_tiny():
+  # Si l'image n'est pas présente:
+  if not request.data:
+    abort(Response('Error: image absente'))
+
+  labels = getLabels(request.data, tiny_weights = True)
+
+  # Retourne les labels trouvés:
+  return jsonify(labels)
+
+
+# Récupère les labels des éléments d'une image provenant d'une requête:
+def getLabels(data, tiny_weights = False):
   # Récupère l'image envoyée:
-  data = request.data
   image = cv2.imdecode(np.fromstring(data, dtype=np.uint8), cv2.IMREAD_COLOR)
 
   # Enregistre l'image:
   cv2.imwrite('img.jpg', image)
 
   # Détermine les labels de l'image:
-  labels = getLabelsFromImage('img.jpg')
+  labels = getLabelsFromImage('img.jpg', tiny_weights)
 
-  # Retourne les labels trouvés:
-  return jsonify(labels)
-
+  return labels
 
 if __name__ == '__main__':
   app.run(debug=True)

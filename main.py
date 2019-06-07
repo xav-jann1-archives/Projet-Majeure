@@ -109,9 +109,6 @@ def moveToObject(pepper, objet_label):
   # S'oriente vers le premier objet;
   pepper.moveTo(0, 0, 3.1415/2.0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
 
-  # Active la caméra:
-  pepper.subscribeCamera(PepperVirtual.ID_CAMERA_TOP)
-
   i = 0
   img_label = ''
   print("A la recherche de l'objet: '%s'" % objet_label)
@@ -130,16 +127,12 @@ def moveToObject(pepper, objet_label):
     
     # Récupère l'objet du label devant Pepper:
     img_label = getLabelFromObject(pepper)
-    print(img_label)
   
   print("Trouvé !!!")
   print("  '%s' à la place %d" %  (objet_label, i))
 
-  # Position de correction pour les déplacement:
+  # Position de correction pour les déplacements:
   delta_pos = i * 0.5
-
-  # Désactive la caméra:
-  pepper.unsubscribeCamera(PepperVirtual.ID_CAMERA_TOP)
 
   # Aligne le bras avec l'objet:
   pepper.moveTo(0.3, -0.125, 0, frame=PepperVirtual.FRAME_ROBOT, speed = 10000.0)
@@ -187,6 +180,8 @@ def putObjectOnTable(pepper):
   pepper.setAngles('LShoulderPitch', 0.7,1)
   pepper.setAngles('LHand', 1, 1)
   time.sleep(1)
+
+  # Décale le bras vers la gauche:
   pepper.setAngles('LShoulderRoll', 0.3, 1)
   time.sleep(1)
   pepper.moveTo(-0.35, 0, 0, frame=PepperVirtual.FRAME_ROBOT, speed = 100.0)
@@ -196,23 +191,43 @@ def putObjectOnTable(pepper):
 
 # Détermine le label de l'objet devant Pepper:
 def getLabelFromObject(pepper):
+  # Active la caméra:
+  pepper.subscribeCamera(PepperVirtual.ID_CAMERA_TOP)
+
   # Se place un peu mieux pour prendre la photo:
   pepper.setAngles('HipPitch', -0.4, 1)
+  time.sleep(1)
 
-  # Récupère l'image capturé par Pepper:
+  # Récupère l'image capturée par Pepper:
   img = pepper.getCameraFrame()
   #cv2.imshow("bottom camera", img)
+  time.sleep(0.5)
 
   # Détermine le label de l'objet contenu dans l'image:
   print("Recherche du label...")
-  #label = getLabelFromImage(img)   # Algorithmia
-  label = getLabelsFromImage_darknet(img)[0]['label']  # darknet/yolo
-  #print(getLabelsFromImage_darknet(img)[0])
-  #label = 'banana'
+  
+  """ Algorithmia """
+  #label = getLabelFromImage(img)
+
+  """ Webservice darknet/yolo """
+  # Reconnaissance rapide:
+  print('  Recherche rapide...')
+  label = getLabelsFromImage_darknet(img, tiny_weights=True)[0]['label']  # darknet/yolo tiny
+
+  # Si la reconnaissance rapide ne fonctionne pas, essaye avec la version longue:
+  if label == 'null':
+    print('  Recherche lente...')
+    label = getLabelsFromImage_darknet(img, tiny_weights=False)[0]['label']  # darknet/yolo
+
+  
+  print('  label trouve: %s' % label)
+
+  # Désactive la caméra:
+  pepper.unsubscribeCamera(PepperVirtual.ID_CAMERA_TOP)
 
   # Repositionnement d'origine:
   pepper.setAngles('HipPitch', 0, 1)
-  
+
   print("Objet: %s" % label)
 
   return label

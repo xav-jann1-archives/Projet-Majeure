@@ -10,12 +10,15 @@ working_dir = os.getcwd()
 #argv = ['./darknet', 'detect', 'cfg/yolov3.cfg', 'yolov3.weights', '/home/tp/Bureau/Projet-Majeure/webservice/img.2.jpg']
 
 
-def getLabelsFromImage(filename):
+def getLabelsFromImage(filename, tiny_weights = True):
   # Correction du chemin:
   if filename[0] != '/':
     filename = working_dir + '/' + filename
 
+  # Commande à exécuter pour lancer la détection:
   argv = ['./darknet', 'detect', 'cfg/yolov3.cfg', 'yolov3.weights', filename]
+  if tiny_weights:
+    argv = ['./darknet', 'detect', 'cfg/yolov3-tiny.cfg', 'yolov3-tiny.weights', filename]
 
   # Exécute le programme de reconnaissance:
   result = subprocess.check_output(argv, cwd=darknet_dir)
@@ -42,5 +45,5 @@ def getLabelsFromImage(filename):
 
 
 if __name__ == '__main__':
-  labels = getLabelsFromImage('img.2.jpg')
+  labels = getLabelsFromImage('img.jpg', True)
   print(labels)
