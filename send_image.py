@@ -9,8 +9,9 @@ import httplib
 # Connection au serveur:
 conn = httplib.HTTPConnection('127.0.0.1:5000', timeout=120)
 
+
 # Envoie d'une requête pour récupérer les labels d'une image:
-def getLabelsFromImage_darknet(img):
+def getLabelsFromImage_darknet(img, tiny_weights = True):
   # Si img est le chemin de l'image:
   if type(img) is str:
     # Charge l'image:
@@ -21,8 +22,9 @@ def getLabelsFromImage_darknet(img):
 
   # Requête:
   headers = {"Content-type": "test/plain"}
+  query = '/labelImage_tiny' if tiny_weights else '/labelImage'
   try:
-    conn.request("GET", "/labelImage", imencoded.tostring(), headers)
+    conn.request("GET", query, imencoded.tostring(), headers)
     response = conn.getresponse()
   except conn.timeout as e:
     print("timeout")
