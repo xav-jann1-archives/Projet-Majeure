@@ -90,8 +90,8 @@
       <geometry>
         <mesh filename="Wine_Bottle/14042_750_mL_Wine_Bottle_r_v1_L3.obj" scale="0.04 0.04 0.025"/>
       </geometry>
-       <material name="red">
-        <color rgba="1 0 0 1"/>
+       <material name="white">
+        <color rgba="1 1 1 1"/>
       </material>
     </visual>
     <collision>

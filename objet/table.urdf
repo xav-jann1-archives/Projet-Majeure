@@ -14,8 +14,8 @@
       <geometry>
 				<mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/> 
       </geometry>
-       <material name="brown">
-        <color rgba="0.5 0.3 0.1 1"/>
+       <material name="white">
+        <color rgba="1 1 1 1"/>
       </material>
     </visual>
      <collision>
@@ -26,7 +26,7 @@
       </geometry>
     </collision>
   </link>
-</robot>
+  </robot>
 
 <!-- dimension x: 1.2 y: 0.1 z:0.4 
 avec la scale : x:3.24 y:0.27 z: 1.08

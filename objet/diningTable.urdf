@@ -14,8 +14,8 @@
       <geometry>
 				<mesh filename="DiningTable/DiningTable.obj" scale="1.5 1.5 1.5"/> 
       </geometry>
-       <material name="brown">
-        <color rgba="0.5 0.3 0.1 1"/>
+       <material name="white">
+        <color rgba="1 1 1"/>
       </material>
     </visual>
      <collision>
@@ -25,5 +25,38 @@
       </geometry>
     </collision>
   </link>
+
+  <link name="plantLink">
+  <contact>
+      <lateral_friction value="1"/>
+  </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+       <mass value=".1"/>
+       <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.57 0 0" xyz="0 0 0"/>
+      <geometry>
+				<mesh filename="plant/eb_house_plant_01.obj" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+     <collision>
+      <origin rpy="1.57 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="plant/eb_house_plant_01.obj" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="jfixed_stuff" type="fixed">
+    <parent link="diningTableLink"/>
+    <child link="plantLink"/>
+    <origin rpy="0 0 0" xyz="0 0 1.6"/>
+  </joint>
+
 </robot>
 <!-- box size = x z y -->

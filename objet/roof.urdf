@@ -1,0 +1,126 @@
+<?xml version="0.0" ?>
+<robot name="roof">
+
+  <link name="roofLink">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="1 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="2.9 0 1.57" xyz="-2 -4 3.4"/>
+        <geometry>
+          <mesh filename="toit/toit.obj" scale="4 3 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <link name="roofLink1">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="1 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="2.9 0 -1.57" xyz="3 2 3.4"/>
+        <geometry>
+          <mesh filename="toit/toit.obj" scale="4 3 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="jfixed_stuff" type="fixed">
+    <parent link="roofLink"/>
+    <child link="roofLink1"/>
+    <origin rpy="0 0 0" xyz="5 0 0"/>
+  </joint>
+
+  <link name="wallLink">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 0" xyz="0 0 6"/>
+        <geometry>
+          <mesh filename="mur/wall.obj" scale="6 2 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+    <joint name="jfixed_stuff2" type="fixed">
+    <parent link="roofLink"/>
+    <child link="wallLink"/>
+    <origin rpy="0 0 0" xyz="-2 8 0"/>
+  </joint>
+
+  <link name="wallLink2">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="1 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 0" xyz="-2 0 6"/>
+        <geometry>
+          <mesh filename="mur/wall.obj" scale="6 2 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="jfixed_stuff3" type="fixed">
+    <parent link="roofLink"/>
+    <child link="wallLink2"/>
+    <origin rpy="0 0 3.14" xyz="6 -6 0"/>
+  </joint>
+
+</robot>

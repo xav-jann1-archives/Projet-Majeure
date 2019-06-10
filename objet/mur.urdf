@@ -1,0 +1,158 @@
+
+<?xml version="0.0" ?>
+<robot name="sol">
+  <link name="wallLink">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 0" xyz="0 0 2"/>
+        <geometry>
+          <mesh filename="mur/wall1_1.obj" scale="6 2 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+    <link name="wallLink2">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 1.57" xyz="-4 -8 2"/>
+        <geometry>
+          <mesh filename="mur/wall.obj" scale="6 2 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="jfixed1" type="fixed">
+    <parent link="wallLink"/>
+    <child link="wallLink2"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+
+    <link name="wallLink3">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 -1.57" xyz="0 2 2"/>
+        <geometry>
+          <mesh filename="mur/wall.obj" scale="6 2 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="jfixed2" type="fixed">
+    <parent link="wallLink2"/>
+    <child link="wallLink3"/>
+    <origin xyz="16 -4 0"/>
+  </joint>
+
+  <link name="wallLink4">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="2 1 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 3.14" xyz="-5 -10 2"/>
+        <geometry>
+          <mesh filename="mur/wall.obj" scale="6 2 2"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="jfixed3" type="fixed">
+    <parent link="wallLink3"/>
+    <child link="wallLink4"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+
+    <link name="porteLink">
+    <contact>
+        <lateral_friction value="1"/>
+    </contact>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <mass value=".0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin rpy="1.57 0 1.57" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="door/InteriorDoor.obj" scale="0.05 0.05 0.05"/> 
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="1.57 0 1.57" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="jfixed4" type="fixed">
+    <parent link="wallLink"/>
+    <child link="porteLink"/>
+    <origin xyz="-3.5 -5 0"/>
+  </joint>
+
+  </robot>
