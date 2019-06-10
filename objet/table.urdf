@@ -12,7 +12,8 @@
     <visual>
       <origin rpy="1.57 0 0" xyz="0 0 0"/>
       <geometry>
-				<mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/> 
+				<!--<mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/> -->
+        <mesh filename="bar/bar.obj" scale="0.5 0.4 1"/> 
       </geometry>
        <material name="white">
         <color rgba="1 1 1 1"/>
@@ -22,10 +23,45 @@
       <origin rpy="1.57 0 0" xyz="0 0 0"/>
       <geometry>
         <!-- <box size="3.24 3 1.08"/> -->
-        <mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/> 
+       <mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/>
       </geometry>
     </collision>
   </link>
+
+    <link name="tableLink2">
+  <contact>
+      <lateral_friction value="1"/>
+  </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="2 1 0"/>
+       <mass value=".0"/>
+       <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.57 0 0" xyz="5 0 0"/>
+      <geometry>
+				<!--<mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/> -->
+        <mesh filename="bar/bar3.obj" scale="0.8 1 0.8"/> 
+      </geometry>
+       <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+     <collision>
+      <origin rpy="1.57 0 0" xyz="0 0 0"/>
+      <geometry>
+        <!-- <box size="3.24 3 1.08"/> -->
+       <mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/>     
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="jfixed" type="fixed">
+    <parent link="tableLink"/>
+    <child link="tableLink2"/>
+    <origin rpy="0 0 3.14" xyz="0 -6 0"/>
+  </joint>
+
   </robot>
 
 <!-- dimension x: 1.2 y: 0.1 z:0.4 
