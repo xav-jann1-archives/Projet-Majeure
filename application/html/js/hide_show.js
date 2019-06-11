@@ -114,11 +114,13 @@
 
     $('#choice_2_2').on('click', function() {
         console.log("click 2");
-        raise('Choix/table2', 1)
+        raise('Choix/table2', 1);
+        raise('fincommande', 1)
     });
     $('#restart').on('click', function() {
         console.log("click restart");
-        raise('Choix/Restart', 1)
+        raise('Choix/Restart', 1);
+        raise('fincommande', 1)
     });
 
 });

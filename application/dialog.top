@@ -18,9 +18,11 @@ u:([Go e:Choix/Start]) %start $Choix/Page0="What would you like?"  What would yo
     u1: ([~Restart e:Choix/Restart]) ^goto(start)
 
 proposal: %table Choose your table. $Choix/Page2=1
-    u1: ([~One e:Choix/table1]) $Choix/Page0="You are at the table one" You are at the table one, I'll be back in few minutes $table=1 $Choix/Page3=1 ^goto(order)
-    u1: ([~Two e:Choix/table2]) $Choix/Page0="You are at the table two" You are at the table two, I'll be back in few minutes $table=2 $Choix/Page3=1 ^goto(order)
+    u1: ([~One e:Choix/table1]) $Choix/Page0="You are at the table one" You are at the table one, I'll be back in few minutes $table=1 $Choix/Page3=1 $fincommande=1 ^goto(order)
+    u1: ([~Two e:Choix/table2]) $Choix/Page0="You are at the table two" You are at the table two, I'll be back in few minutes $table=2 $Choix/Page3=1 $fincommande=1 ^goto(order)
     u1: ([~Restart e:Choix/Restart]) ^goto(start)
 
-proposal: %order Your would like a $objet for table $table
+proposal: %order You would like a $objet for table $table
     u1: ([~Restart e:Choix/Restart]) ^goto(start)
+
+    
