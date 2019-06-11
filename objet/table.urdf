@@ -27,7 +27,7 @@
       </geometry>
     </collision>
   </link>
-
+<!--
     <link name="tableLink2">
   <contact>
       <lateral_friction value="1"/>
@@ -40,7 +40,6 @@
     <visual>
       <origin rpy="1.57 0 0" xyz="5 0 0"/>
       <geometry>
-				<!--<mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/> -->
         <mesh filename="bar/bar3.obj" scale="0.8 1 0.8"/> 
       </geometry>
        <material name="white">
@@ -50,7 +49,6 @@
      <collision>
       <origin rpy="1.57 0 0" xyz="0 0 0"/>
       <geometry>
-        <!-- <box size="3.24 3 1.08"/> -->
        <mesh filename="Table/Table_1_obj.obj" scale="2.7 2.7 2.7"/>     
       </geometry>
     </collision>
@@ -61,9 +59,6 @@
     <child link="tableLink2"/>
     <origin rpy="0 0 3.14" xyz="0 -6 0"/>
   </joint>
+  -->
 
   </robot>
-
-<!-- dimension x: 1.2 y: 0.1 z:0.4 
-avec la scale : x:3.24 y:0.27 z: 1.08
--->

@@ -7,15 +7,23 @@ from qibullet import SimulationManager
 from qibullet import PepperVirtual
 import cv2, random, time, numpy as np
 
+
 # Scripts:
 from image_recognition import getLabelFromImage
 from send_image import getLabelsFromImage_darknet
+from tablette import wait_command
+
+# Utiliser Algorithmia (True) ou webservice personnel (False):
+useAlgorithmia = True
 
 # Liste des objets composant le décor:
 objects = [
   { "name": "objet/table.urdf", "basePosition": [1, 1, 0], "globalScaling": 0.5 },
   { "name": "objet/diningTable.urdf", "basePosition": [-2, 0.8, -0.1], "globalScaling": 0.5 },
-  { "name": "objet/diningTable.urdf", "basePosition": [4, 0.8, -0.1], "globalScaling": 0.5 }
+  { "name": "objet/diningTable.urdf", "basePosition": [4, 0.8, -0.1], "globalScaling": 0.5 },
+  { "name": "objet/sol.urdf", "basePosition": [0, 0, 0], "globalScaling": 0.5 },
+  { "name": "objet/mur.urdf", "basePosition": [-3, 4, 0], "globalScaling": 0.5 },
+  #{ "name": "objet/roof.urdf", "basePosition": [-1, 0, 2], "globalScaling": 0.5 }
 ]
 
 # Liste des totems:
@@ -51,8 +59,8 @@ def main():
   init_move(pepper)
 
   # Attend la commande:
-  # [objet, table] = ...
-  [objet, table] = ['banana', 1]
+  print('\t Bonjour, veuillez choisir votre commande sur la tablette.')
+  [objet, table] = wait_command()
   
   # Déplacement de Pepper pour récupérer l'objet demandé:
   delta_pos = moveToObject(pepper, objet)
@@ -196,7 +204,7 @@ def getLabelFromObject(pepper):
 
   # Se place un peu mieux pour prendre la photo:
   pepper.setAngles('HipPitch', -0.4, 1)
-  time.sleep(1)
+  time.sleep(2)
 
   # Récupère l'image capturée par Pepper:
   img = pepper.getCameraFrame()
@@ -206,18 +214,20 @@ def getLabelFromObject(pepper):
   # Détermine le label de l'objet contenu dans l'image:
   print("Recherche du label...")
   
-  """ Algorithmia """
-  #label = getLabelFromImage(img)
+  if useAlgorithmia:
+    """ Algorithmia """
+    label = getLabelFromImage(img)
+  
+  else:
+    """ Webservice darknet/yolo """
+    # Reconnaissance rapide:
+    print('  Recherche rapide...')
+    label = getLabelsFromImage_darknet(img, tiny_weights=True)[0]['label']  # darknet/yolo tiny
 
-  """ Webservice darknet/yolo """
-  # Reconnaissance rapide:
-  print('  Recherche rapide...')
-  label = getLabelsFromImage_darknet(img, tiny_weights=True)[0]['label']  # darknet/yolo tiny
-
-  # Si la reconnaissance rapide ne fonctionne pas, essaye avec la version longue:
-  if label == 'null':
-    print('  Recherche lente...')
-    label = getLabelsFromImage_darknet(img, tiny_weights=False)[0]['label']  # darknet/yolo
+    # Si la reconnaissance rapide ne fonctionne pas, essaye avec la version longue:
+    if label == 'null':
+      print('  Recherche lente...')
+      label = getLabelsFromImage_darknet(img, tiny_weights=False)[0]['label']  # darknet/yolo
 
   
   print('  label trouve: %s' % label)

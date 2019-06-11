@@ -12,7 +12,7 @@ concept: (Two) [two deux zwei]
 u: ([Hello]) Hello, I'm here for you ! ^goto(start)
 u:([Go e:Choix/Start]) %start $Choix/Page0="What would you like?"  What would you like? WIne, Pizza, or Banane? $Choix/Page1=1
 
-    u1:([~Bottle e:Choix/Button1]) $objet="bottle" $Choix/Page0="You choose Wine. Now, choose your table" Wine, Good choice ! ^goto(table)
+    u1:([~Bottle e:Choix/Button1])  $objet="bottle" $Choix/Page0="You choose Wine. Now, choose your table" Wine, Good choice ! ^goto(table)
     u1:([~Pizza e:Choix/Button2]) $objet="pizza" $Choix/Page0="You choose Pizza. Now, choose your table" Pizza, I like it ^goto(table)
     u1:([~Banana e:Choix/Button3]) $objet="banana" $Choix/Page0="You choose Banana. Now, choose your table " Banana, Why not ! ^goto(table)
     u1: ([~Restart e:Choix/Restart]) ^goto(start)
