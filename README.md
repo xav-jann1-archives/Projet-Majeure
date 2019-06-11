@@ -11,7 +11,7 @@ Simulation d'un robot Pepper pour **reconnaître, récupérer et placer des obje
  
 
 ## YOUTUBE :
- - [Vidéo]()
+ - [Vidéo](https://youtu.be/TztAil6PtAA)
  
 ## GITHUB :
  - [Projet-Majeure](https://github.com/xav-jann1/Projet-Majeure)
